@@ -101,5 +101,5 @@ app.post("/api/verify-payment", (req, res) => {
 });
 
 
-app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+app.use(express.static(__dirname));
 app.listen(PORT, () => console.log(`Globale Solution AI running at http://localhost:${PORT}`));
