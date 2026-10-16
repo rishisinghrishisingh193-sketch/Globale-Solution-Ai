@@ -7,8 +7,8 @@ const Razorpay = require("razorpay");
 
 const app = express();
 app.use(express.json({ limit: "1mb" }));
-app.use(express.static(path.join(__dirname, "public")));
 
+app.use(express.static(__dirname));
 const PORT = process.env.PORT || 3000;
 const MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const client = process.env.OPENAI_API_KEY
@@ -100,6 +100,6 @@ app.post("/api/verify-payment", (req, res) => {
   res.json({ verified: true, message: "Payment signature verified. Subscription activation still needs a database/backend workflow." });
 });
 
-app.get("*", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
+app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 app.listen(PORT, () => console.log(`Globale Solution AI running at http://localhost:${PORT}`));
