@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10131b">
+<meta name="description" content="Globale Solution AI — ask, learn, write and create.">
+<title>Globale Solution AI</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">G</div><div><strong>Globale Solution</strong><small>AI ASSISTANT</small></div></div>
+    <button class="new-chat" id="newChat">＋ <span>New chat</span></button>
+    <div class="side-label">EXPLORE</div>
+    <button class="side-link" data-prompt="Explain a difficult topic in simple words with an example.">✦ <span>Learn something</span></button>
+    <button class="side-link" data-prompt="Help me write a professional email. Ask me for details if needed.">✎ <span>Write something</span></button>
+    <button class="side-link" data-prompt="Give me 5 creative business ideas I can start on a small budget.">◈ <span>Brainstorm ideas</span></button>
+    <div class="sidebar-bottom"><div class="avatar">GS</div><div><strong>Guest user</strong><small>Free preview</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      <div class="mobile-brand"><span class="logo small-logo">G</span> Globale Solution</div>
+      <span class="model-pill"><span class="status-dot"></span> AI Assistant</span>
+    </header>
+
+    <section class="conversation" id="conversation">
+      <div class="welcome" id="welcome">
+        <div class="welcome-mark">✦</div>
+        <h1>What can I help you with?</h1>
+        <p>Ask questions, explore ideas, or get help with your next project.</p>
+        <div class="suggestions">
+          <button class="suggestion" data-prompt="Explain artificial intelligence in simple Hindi."><span>◉</span><strong>Explain a topic</strong><small>Simple, clear answers</small></button>
+          <button class="suggestion" data-prompt="Write a catchy Instagram caption for a gaming post."><span>✎</span><strong>Write content</strong><small>Posts, emails and more</small></button>
+          <button class="suggestion" data-prompt="Suggest a small online business I can start in India."><span>↗</span><strong>Plan a project</strong><small>Turn ideas into steps</small></button>
+        </div>
+      </div>
+      <div class="messages" id="messages" aria-live="polite"></div>
+    </section>
+
+    <section class="composer-wrap">
+      <form class="composer" id="chatForm">
+        <textarea id="prompt" rows="1" maxlength="4000" placeholder="Message Globale Solution..." aria-label="Your message"></textarea>
+        <div class="composer-bottom"><span class="hint">AI can make mistakes. Check important information.</span><button id="sendBtn" class="send-btn" aria-label="Send message">↑</button></div>
+      </form>
+      <p class="disclaimer">Globale Solution AI · Built for learning and creativity</p>
+    </section>
+  </main>
+  <div class="overlay" id="overlay"></div>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>
