@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json({ limit: "1mb" }));
 
 const PORT = process.env.PORT || 3000;
-const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 const client = process.env.GROQ_API_KEY
   ? new OpenAI({
       apiKey: process.env.GROQ_API_KEY,
