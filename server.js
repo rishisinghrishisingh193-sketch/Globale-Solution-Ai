@@ -8,11 +8,13 @@ const Razorpay = require("razorpay");
 const app = express();
 app.use(express.json({ limit: "1mb" }));
 
-app.use(express.static(__dirname));
 const PORT = process.env.PORT || 3000;
-const MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
-const client = process.env.OPENAI_API_KEY
-  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const client = process.env.GROQ_API_KEY
+  ? new OpenAI({
+      apiKey: process.env.GROQ_API_KEY,
+      baseURL: "https://api.groq.com/openai/v1"
+    })
   : null;
 
 const hasRazorpay = !!(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET);
@@ -33,7 +35,7 @@ app.post("/api/chat", async (req, res) => {
   try {
     if (!client) {
       return res.status(503).json({
-        error: "AI abhi configure nahi hai. Site owner ko server par OPENAI_API_KEY add karni hogi."
+        error: "AI abhi configure nahi hai. Site owner ko server par GROQ_API_KEY add karni hogi."
       });
     }
     const messages = req.body && req.body.messages;
