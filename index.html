@@ -44,6 +44,24 @@
     <section class="composer-wrap">
       <form class="composer" id="chatForm">
         <textarea id="prompt" rows="1" maxlength="4000" placeholder="Message Globale Solution..." aria-label="Your message"></textarea>
+        <div class="photo-tools">
+  <label for="galleryInput">🖼️ Gallery</label>
+  <input
+    type="file"
+    id="galleryInput"
+    accept="image/*"
+    hidden
+  >
+
+  <label for="cameraInput">📷 Camera</label>
+  <input
+    type="file"
+    id="cameraInput"
+    accept="image/*"
+    capture="environment"
+    hidden
+  >
+</div>
         <div class="composer-bottom"><span class="hint">AI can make mistakes. Check important information.</span><button id="sendBtn" class="send-btn" aria-label="Send message">↑</button></div>
       </form>
       <p class="disclaimer">Globale Solution AI · Built for learning and creativity</p>
