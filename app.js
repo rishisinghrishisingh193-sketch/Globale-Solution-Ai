@@ -1,5 +1,8 @@
 const form = document.getElementById("chatForm");
 const promptBox = document.getElementById("prompt");
+const galleryInput = document.getElementById("galleryInput");
+const cameraInput = document.getElementById("cameraInput");
+let selectedPhoto = null;
 const messagesEl = document.getElementById("messages");
 const welcome = document.getElementById("welcome");
 const sendBtn = document.getElementById("sendBtn");
@@ -65,6 +68,35 @@ async function sendMessage(text) {
     setBusy(false);
     promptBox.focus();
   }
+}function handlePhotoSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("कृपया एक फोटो चुनें।");
+    return;
+  }
+
+  if (file.size > 4 * 1024 * 1024) {
+    alert("कृपया 4 MB से छोटी फोटो चुनें।");
+    event.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    selectedPhoto = reader.result;
+    alert("फोटो चुन ली गई है। अब अपना सवाल लिखें।");
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
+}
+
+if (galleryInput) {
+  galleryInput.addEventListener("change", handlePhotoSelect);
+}
+if (cameraInput) {
+  cameraInput.addEventListener("change", handlePhotoSelect);
 }
 form.addEventListener("submit", e => { e.preventDefault(); sendMessage(promptBox.value); });
 promptBox.addEventListener("input", () => {
