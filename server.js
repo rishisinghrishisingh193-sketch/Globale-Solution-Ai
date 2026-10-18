@@ -6,10 +6,11 @@ const OpenAI = require("openai");
 const Razorpay = require("razorpay");
 
 const app = express();
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "8mb" }));
 
 const PORT = process.env.PORT || 3000;
 const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+const VISION_MODEL = process.env.GROQ_VISION_MODEL || "qwen/qwen3.8-27b";
 const client = process.env.GROQ_API_KEY
   ? new OpenAI({
       apiKey: process.env.GROQ_API_KEY,
@@ -39,6 +40,7 @@ app.post("/api/chat", async (req, res) => {
       });
     }
     const messages = req.body && req.body.messages;
+    const image = req.body && req.body.image;
     if (!Array.isArray(messages) || messages.length === 0 || messages.length > 20) {
       return res.status(400).json({ error: "Please send 1–20 chat messages." });
     }
@@ -46,18 +48,44 @@ app.post("/api/chat", async (req, res) => {
       role: m.role === "assistant" ? "assistant" : "user",
       content: String(m.content || "").slice(0, 4000)
     })).filter(m => m.content.trim());
+    if (
+  image &&
+  (typeof image !== "string" ||
+   !/^data:image\/(jpeg|png|webp|gif);base64,/.test(image))
+) {
+  return res.status(400).json({ error: "Please upload a valid image." });
+}
 
     if (!safeMessages.length || safeMessages[safeMessages.length - 1].role !== "user") {
       return res.status(400).json({ error: "A user message is required." });
     }
 
-    const response = await client.chat.completions.create({
-      model: MODEL,
-      messages: [
-        { role: "system", content: "You are Globale Solution AI, a helpful assistant. Reply clearly and match the user's language when possible. Do not claim to be ChatGPT or OpenAI." },
-        ...safeMessages
-      ],
-      max_tokens: 700
+    const finalMessages = [...safeMessages];
+
+if (image) {
+  const lastIndex = finalMessages.length - 1;
+  const lastMessage = finalMessages[lastIndex];
+
+  finalMessages[lastIndex] = {
+    role: "user",
+    content: [
+      { type: "text", text: lastMessage.content || "इस फोटो को समझाइए।" },
+      { type: "image_url", image_url: { url: image } }
+    ]
+  };
+}
+
+const response = await client.chat.completions.create({
+  model: image ? VISION_MODEL : MODEL,
+  messages: [
+    {
+      role: "system",
+      content: "You are Globale Solution AI, a helpful assistant. Reply clearly and match the user's language."
+    },
+    ...finalMessages
+  ],
+  max_tokens: 700
+});
     });
     res.json({ reply: response.choices?.[0]?.message?.content || "Sorry, no answer was returned." });
   } catch (err) {
