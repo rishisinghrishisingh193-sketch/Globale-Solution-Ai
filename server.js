@@ -1,4 +1,4 @@
-require("dotenv").config();
+requirements("dotenv").config();
 const express = require("express");
 const path = require("path");
 const crypto = require("crypto");
@@ -86,7 +86,7 @@ const response = await client.chat.completions.create({
   ],
   max_tokens: 700
 });
-    });
+  
     res.json({ reply: response.choices?.[0]?.message?.content || "Sorry, no answer was returned." });
   } catch (err) {
     console.error("Chat API error:", err.message);
