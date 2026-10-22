@@ -45,6 +45,10 @@ async function sendMessage(text) {
   promptBox.style.height = "auto";
   addMessage("user", text);
   history.push({ role: "user", content: text });
+  
+const photoToSend = selectedPhoto;
+selectedPhoto = null;
+
   const typing = addMessage("assistant", "Thinking…");
   typing.querySelector(".bubble").classList.add("typing");
   setBusy(true);
@@ -52,7 +56,12 @@ async function sendMessage(text) {
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: history.slice(-20) })
+      
+body: JSON.stringify({
+  messages: history.slice(-20),
+  image: photoToSend
+})
+
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "Something went wrong.");
