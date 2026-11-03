@@ -10,7 +10,6 @@ app.use(express.json({ limit: "8mb" }));
 
 const PORT = process.env.PORT || 3000;
 const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
-const VISION_MODEL = process.env.GROQ_VISION_MODEL || "qwen/qwen3.8-27b";
 const client = process.env.GROQ_API_KEY
   ? new OpenAI({
       apiKey: process.env.GROQ_API_KEY,
